@@ -2,21 +2,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>net.serenitybdd.starter</groupId>
-    <artifactId>cucumber-starter</artifactId>
+    <groupId>com.serenitydojo</groupId>
+    <artifactId>flying-high</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>Sample Serenity BDD project using Cucumber</name>
+    <name>Flying High Acceptance Tests</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <serenity.version>2.3.10</serenity.version>
-        <serenity.maven.version>2.3.10</serenity.maven.version>
-        <serenity.cucumber.version>2.3.10</serenity.cucumber.version>
+        <serenity.version>2.3.13-SNAPSHOT</serenity.version>
+        <serenity.maven.version>2.3.12</serenity.maven.version>
+        <serenity.cucumber.version>2.2.6-SNAPSHOT</serenity.cucumber.version>
         <encoding>UTF-8</encoding>
-        <tags></tags>
-        <webdriver.base.url></webdriver.base.url>
+        <serenity.take.screenshots>FOR_FAILURES</serenity.take.screenshots>
     </properties>
     <dependencies>
         <dependency>
@@ -45,6 +44,12 @@
         <dependency>
             <groupId>net.serenity-bdd</groupId>
             <artifactId>serenity-screenplay-webdriver</artifactId>
+            <version>${serenity.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-screenplay-rest</artifactId>
             <version>${serenity.version}</version>
             <scope>test</scope>
         </dependency>
@@ -101,10 +106,13 @@
                     </includes>
                     <systemPropertyVariables>
                         <webdriver.base.url>${webdriver.base.url}</webdriver.base.url>
+                        <serenity.take.screenshots>${serenity.take.screenshots}</serenity.take.screenshots>
                     </systemPropertyVariables>
                     <parallel>classes</parallel>
                     <parallel>methods</parallel>
                     <useUnlimitedThreads>true</useUnlimitedThreads>
+                    <systemPropertyVariables>
+                    </systemPropertyVariables>
                 </configuration>
                 <executions>
                     <execution>
@@ -150,4 +158,12 @@
             </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>reports</id>
+            <properties>
+                <serenity.take.screenshots>FOR_EACH_ACTION</serenity.take.screenshots>
+            </properties>
+        </profile>
+    </profiles>
 </project>
