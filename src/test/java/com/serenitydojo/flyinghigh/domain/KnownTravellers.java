@@ -8,7 +8,7 @@ public class KnownTravellers {
     }
 
     private static String uniqueUsernameIncluding(String actorName) {
-        return actorName + "-" + System.currentTimeMillis();
+        return actorName + "" + System.currentTimeMillis() + "@example.org";
     }
 
 }

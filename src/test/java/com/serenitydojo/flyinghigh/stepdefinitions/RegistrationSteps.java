@@ -2,24 +2,32 @@ package com.serenitydojo.flyinghigh.stepdefinitions;
 
 import com.serenitydojo.flyinghigh.domain.Traveller;
 import com.serenitydojo.flyinghigh.tasks.login.Login;
+import com.serenitydojo.flyinghigh.tasks.login.VisibleErrorMessage;
 import com.serenitydojo.flyinghigh.tasks.navigate.MenuBar;
 import com.serenitydojo.flyinghigh.tasks.navigate.Navigate;
+import com.serenitydojo.flyinghigh.tasks.registration.CheckErrorMessagesForEachMissingField;
 import com.serenitydojo.flyinghigh.tasks.registration.RegisterForNewFrequentFlyerAccount;
+import com.serenitydojo.flyinghigh.tasks.registration.RegistrationForm;
 import com.serenitydojo.flyinghigh.tasks.registration.api.RegisteredUsersApi;
 import io.cucumber.java.After;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.actors.OnStage;
 import net.serenitybdd.screenplay.ensure.Ensure;
-import net.serenitybdd.screenplay.waits.WaitUntil;
 
+import java.util.List;
 import java.util.Map;
 
 import static com.serenitydojo.flyinghigh.domain.KnownTravellers.aTravellerCalled;
+import static net.serenitybdd.screenplay.EventualConsequence.eventually;
+import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
 import static net.serenitybdd.screenplay.actors.OnStage.theActorInTheSpotlight;
-import static net.serenitybdd.screenplay.matchers.WebElementStateMatchers.isVisible;
+import static net.serenitybdd.screenplay.matchers.WebElementStateMatchers.containsText;
+import static net.serenitybdd.screenplay.questions.WebElementQuestion.the;
+import static org.hamcrest.Matchers.equalTo;
 
 public class RegistrationSteps {
 
@@ -33,10 +41,17 @@ public class RegistrationSteps {
         actor.remember("TRAVELLER", traveller);
     }
 
+    @Given("{actor} wants to register for a Frequent Flyer account")
+    public void wantsToRegister(Actor actor) {
+        traveller = aTravellerCalled(actor.getName());
+        actor.remember("TRAVELLER", traveller);
+        actor.attemptsTo(Navigate.toTheRegisterPage());
+    }
+
     @Given("{actor} is a Frequent Flyer member with the following details:")
     public void registerAFrequentFlyerMember(Actor actor, Map<String, String> userDetails) {
         traveller = aTravellerCalled(actor.getName())
-                .withUsername(userDetails.getOrDefault("username", actor.getName()))
+                .withEmail(userDetails.getOrDefault("email", actor.getName()))
                 .withPassword(userDetails.getOrDefault("password", "secret"));
 
         Traveller registeredTraveller = registeredUsersApi.registerTraveller(traveller);
@@ -55,11 +70,11 @@ public class RegistrationSteps {
     public void registers(Actor actor, String username) {
         actor.attemptsTo(
                 Navigate.toTheRegisterPage(),
-                RegisterForNewFrequentFlyerAccount.as(traveller.withUsername(username))
+                RegisterForNewFrequentFlyerAccount.as(traveller.withEmail(username))
         );
     }
 
-    @When("{actor} tries to register without entering {}")
+    @When("{actor} tries to register without entering her {}")
     public void registersWithoutField(Actor actor, String forgottenField) {
         Traveller forgetfulTraveller = traveller.withEmptyValueFor(forgottenField);
         actor.attemptsTo(
@@ -86,9 +101,9 @@ public class RegistrationSteps {
     }
 
     @When("{actor} attempts to log on as {string} with password {string}")
-    public void logsOnWithUsernameAndPassword(Actor actor, String username, String password) {
+    public void logsOnWithEmailAndPassword(Actor actor, String email, String password) {
         Traveller traveller = actor.recall("TRAVELLER");
-        actor.attemptsTo(Login.as(traveller.withUsername(username).withPassword(password)));
+        actor.attemptsTo(Login.as(traveller.withEmail(email).withPassword(password)));
     }
 
     @Then("{actor} should be taken to the Frequent Flyer members area")
@@ -102,7 +117,7 @@ public class RegistrationSteps {
     public void shouldBeGreetedByNameOf(Actor actor) {
         Traveller traveller = actor.recall("TRAVELLER");
         actor.attemptsTo(
-                Ensure.that(MenuBar.CURRENT_USER).hasText(traveller.getUsername())
+                Ensure.that(MenuBar.CURRENT_USER).hasText(traveller.getEmail())
         );
     }
 
@@ -113,11 +128,31 @@ public class RegistrationSteps {
         );
     }
 
+    @Then("{actor} should be told {string} about {word}")
+    public void shouldSeeErrorMessageForField(Actor actor, String expectedMessage, String field) {
+        actor.should(
+                seeThat(VisibleErrorMessage.forField(field), equalTo(expectedMessage))
+        );
+    }
+
     @Then("{actor} should be presented with an error message containing {string}")
+    public void shouldSeeAlert(Actor actor, String expectedMessage) {
+        actor.should(
+                eventually(seeThat(the(MenuBar.ALERT_DIALOG), containsText(expectedMessage)))
+        );
+    }
+
+    @Then("{actor} should be told {string}")
     public void shouldSeeErrorMessage(Actor actor, String expectedMessage) {
         actor.attemptsTo(
-                WaitUntil.the(MenuBar.ALERT_DIALOG, isVisible()),
-                Ensure.that(MenuBar.ALERT_DIALOG).text().contains(expectedMessage)
+                Ensure.that(RegistrationForm.ERROR_MESSAGE).hasTextContent(expectedMessage)
+        );
+    }
+
+    @Then("the following information should be mandatory to register:")
+    public void checkMandatoryFieldsForRegistration(List<String> mandatoryFields) {
+        theActorInTheSpotlight().attemptsTo(
+                CheckErrorMessagesForEachMissingField.from(mandatoryFields).as(traveller)
         );
     }
 

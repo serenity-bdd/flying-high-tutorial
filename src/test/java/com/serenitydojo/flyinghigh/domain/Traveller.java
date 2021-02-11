@@ -6,19 +6,19 @@ import java.lang.reflect.InvocationTargetException;
 
 public class Traveller {
 
-    private final String username;
-    private final String password;
-    private final String title;
-    private final String firstName;
-    private final String lastName;
-    private final String address;
-    private final String country;
-    private final String seatPreference;
-    private final Boolean newsletterSub;
-    private final boolean agreesToTermsAndConditions;
+    private String email;
+    private String password;
+    private String title;
+    private String firstName;
+    private String lastName;
+    private String address;
+    private String country;
+    private String seatPreference;
+    private Boolean newsletterSub;
+    private boolean agreesToTermsAndConditions;
     private String userid;
 
-    public Traveller(String username,
+    public Traveller(String email,
                      String password,
                      String title,
                      String firstName,
@@ -28,7 +28,7 @@ public class Traveller {
                      String seatPreference,
                      Boolean newsletterSub,
                      boolean agreesToTermsAndConditions) {
-        this.username = username;
+        this.email = email;
         this.password = password;
         this.title = title;
         this.firstName = firstName;
@@ -44,8 +44,8 @@ public class Traveller {
         return new TravellerBuilder(firstName, lastName);
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
     public String getPassword() {
@@ -92,14 +92,53 @@ public class Traveller {
         return agreesToTermsAndConditions;
     }
 
-    public Traveller withUsername(String newUsername) {
+    public Traveller withEmail(String newUsername) {
         return new Traveller(newUsername, password, title, firstName, lastName, address, country, seatPreference, newsletterSub, agreesToTermsAndConditions);
     }
 
     public Traveller whoDoesNotAgreeToTheTermsAndConditions() {
-        return new Traveller(username, password, title, firstName, lastName, address, country, seatPreference, newsletterSub, false);
+        return new Traveller(email, password, title, firstName, lastName, address, country, seatPreference, newsletterSub, false);
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setSeatPreference(String seatPreference) {
+        this.seatPreference = seatPreference;
+    }
+
+    public void setNewsletterSub(Boolean newsletterSub) {
+        this.newsletterSub = newsletterSub;
+    }
+
+    public void setAgreesToTermsAndConditions(boolean agreesToTermsAndConditions) {
+        this.agreesToTermsAndConditions = agreesToTermsAndConditions;
+    }
 
     public Traveller withUserId(String userid) {
         this.userid = userid;
@@ -107,12 +146,12 @@ public class Traveller {
     }
 
     public Traveller withPassword(String newPassword) {
-        return new Traveller(username, newPassword, title, firstName, lastName, address, country, seatPreference, newsletterSub, agreesToTermsAndConditions);
+        return new Traveller(email, newPassword, title, firstName, lastName, address, country, seatPreference, newsletterSub, agreesToTermsAndConditions);
     }
 
     public Traveller withEmptyValueFor(String field) {
         try {
-            Traveller emptyTraveller = this.withUsername(username);
+            Traveller emptyTraveller = this.withEmail(email);
             BeanUtils.setProperty(emptyTraveller, field, "");
             return emptyTraveller;
         } catch (IllegalAccessException | InvocationTargetException e) {

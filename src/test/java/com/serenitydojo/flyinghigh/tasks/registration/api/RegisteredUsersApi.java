@@ -25,9 +25,7 @@ public class RegisteredUsersApi {
                 .header("Authorization", "Bearer " + token)
                 .body(traveller)
                 .queryParam("userId", traveller.getUserid())
-                .delete(USERS)
-                .then()
-                .statusCode(200);
+                .delete(USERS);
     }
 
     public Traveller registerTraveller(Traveller traveller) {

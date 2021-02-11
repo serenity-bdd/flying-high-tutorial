@@ -108,7 +108,6 @@
                         <webdriver.base.url>${webdriver.base.url}</webdriver.base.url>
                         <serenity.take.screenshots>${serenity.take.screenshots}</serenity.take.screenshots>
                     </systemPropertyVariables>
-                    <parallel>classes</parallel>
                     <parallel>methods</parallel>
                     <useUnlimitedThreads>true</useUnlimitedThreads>
                     <systemPropertyVariables>
