@@ -41,7 +41,6 @@ Business Need: Registration
         | address       | Please enter your address    |
         | country       | Please enter a valid country |
 
-    @current
     Scenario: Mandatory fields for registration
     This scenario uses a more declarative style and is less tightly coupled to the implementation
       When Candy wants to register for a Frequent Flyer account

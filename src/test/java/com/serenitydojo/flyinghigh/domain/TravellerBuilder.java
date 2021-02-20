@@ -1,7 +1,7 @@
 package com.serenitydojo.flyinghigh.domain;
 
 public class TravellerBuilder {
-    private String username;
+    private String email = "some@email.org";
     private String firstName;
     private String lastName;
     private String password = "secret";
@@ -17,7 +17,7 @@ public class TravellerBuilder {
     }
 
     public TravellerBuilder withUsername(String username) {
-        this.username = username;
+        this.email = username;
         return this;
     }
 
@@ -42,6 +42,6 @@ public class TravellerBuilder {
     }
 
     public Traveller build() {
-        return new Traveller(username, password, title, firstName, lastName, address, country, seatPreference, newsletterSub, true);
+        return new Traveller(email, password, title, firstName, lastName, address, country, seatPreference, newsletterSub, true);
     }
 }

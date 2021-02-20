@@ -163,4 +163,17 @@ public class RegistrationSteps {
             registeredUsersApi.delete(traveller);
         }
     }
+
+    @Given("{actor} is a registered Frequent Flyer")
+    public void registeredFrequentFlyer(Actor actor) {
+        traveller = Traveller.called(actor.getName(),"Traveller").build();
+        registeredUsersApi.registerTraveller(traveller);
+    }
+
+    @And("{actor} has logged on")
+    public void hasLoggedOn(Actor actor) {
+        actor.attemptsTo(
+                Login.as(traveller)
+        );
+    }
 }

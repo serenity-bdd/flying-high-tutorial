@@ -11,9 +11,9 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <serenity.version>2.3.13-SNAPSHOT</serenity.version>
+        <serenity.version>2.3.12</serenity.version>
         <serenity.maven.version>2.3.12</serenity.maven.version>
-        <serenity.cucumber.version>2.2.6-SNAPSHOT</serenity.cucumber.version>
+        <serenity.cucumber.version>2.3.12</serenity.cucumber.version>
         <encoding>UTF-8</encoding>
         <serenity.take.screenshots>FOR_FAILURES</serenity.take.screenshots>
     </properties>
