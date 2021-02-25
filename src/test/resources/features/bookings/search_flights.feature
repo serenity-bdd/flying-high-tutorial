@@ -8,4 +8,4 @@ Business Need: Search Flights
   Example: Searching for a single trip
     Given Donald wants to travel from New York to London in Economy
     When he searches for available flights
-#    Then he should be shown all matching flights
+    Then he should be shown all matching flights

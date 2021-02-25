@@ -10,10 +10,7 @@ import com.serenitydojo.flyinghigh.tasks.registration.RegisterForNewFrequentFlye
 import com.serenitydojo.flyinghigh.tasks.registration.RegistrationForm;
 import com.serenitydojo.flyinghigh.tasks.registration.api.RegisteredUsersApi;
 import io.cucumber.java.After;
-import io.cucumber.java.en.And;
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
+import io.cucumber.java.en.*;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.actors.OnStage;
 import net.serenitybdd.screenplay.ensure.Ensure;

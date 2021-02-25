@@ -2,10 +2,11 @@ package com.serenitydojo.flyinghigh.tasks.search;
 
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.Performable;
+import net.serenitybdd.screenplay.Task;
 import net.serenitybdd.screenplay.actions.Click;
 import net.serenitybdd.screenplay.actions.Enter;
 import net.serenitybdd.screenplay.targets.Target;
-import org.openqa.selenium.By;
+import net.thucydides.core.annotations.Step;
 
 public class SearchForFlights implements Performable {
     String departure;
@@ -31,6 +32,7 @@ public class SearchForFlights implements Performable {
     static Target TRAVEL_CLASS = Target.the("{0} Travel Class").locatedBy("//span[@class='mat-option-text'][.=' {0} ']");
 
     @Override
+    @Step("{0} searches for flights from #departure to #destination in #cabinClass")
     public <T extends Actor> void performAs(T actor) {
         actor.attemptsTo(
                 Enter.theValue(departure).into("#departure"),
