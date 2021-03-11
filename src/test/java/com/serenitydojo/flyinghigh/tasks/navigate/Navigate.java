@@ -7,7 +7,7 @@ import net.serenitybdd.screenplay.actions.Open;
 
 public class Navigate {
     public static Performable toTheFrequentFlyerApplication() {
-        return Open.url("http://localhost:4200");
+        return Open.url("http://localhost:3000");
     }
 
     public static Performable toTheRegisterPage() {

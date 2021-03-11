@@ -1,11 +1,25 @@
 Business Need: Search Flights
 
-  Background:
-    Given Donald is a registered Frequent Flyer
-    And Donald has logged on
+  In order to book more flights
+  As an airline
+  I want travellers to be able to find flights that match their needs
 
-  @current
-  Example: Searching for a single trip
-    Given Donald wants to travel from New York to London in Economy
-    When he searches for available flights
-    Then he should be shown all matching flights
+  Background:
+    Given Tracy is a registered Frequent Flyer
+    And Tracy has logged on
+
+  Rule: Travellers can search for single or return trips
+    Example: Searching for a single trip
+      Given Tracy wants to travel from New York to London in Economy
+      When she searches for available flights
+      Then she should be shown all matching flights
+
+  Rule: Travellers can book a flight they have found
+    @current
+    Example: Tracy books a flight she has found
+      Given Tracy has found a flight from New York to London in Economy
+      When she books the flight
+      Then the flight should appear in her bookings
+
+
+
